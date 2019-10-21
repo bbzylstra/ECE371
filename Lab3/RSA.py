@@ -1,6 +1,6 @@
 
 import random
-
+from math import floor
 
 #fnction for finding gcd of two numbers using euclidean algorithm
 def gcd(a, b):
@@ -13,9 +13,29 @@ def gcd(a, b):
 #will also be explained in class
 def get_d(e, z):
     ###################################your code goes here#####################################
-    d=0
-    return d
+    a = (1,0)
+    b = (0,1)
+    output = 0
     
+    while (output != 1):
+
+        # Anonymous function to reduce tuple to numeric value
+        value = lambda (x,y): x*e+y*z
+
+        # val is simply amodb
+        output = value(a)%value(b)
+        # Get the value of c by dividing a/b without the remainder
+        c = floor(value(a)/value(b))
+
+        #Do tuple subtraction a-c*b, where c is the number of times b can go into a
+        r = tuple(x-c*y for x, y in zip(a, b))
+        
+        #print(str(a) + " - " + str(b) + " = " + str(val))
+        a = b
+        b = r
+
+    return r[1]
+
 def is_prime (num):
     if num > 1: 
       
