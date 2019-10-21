@@ -248,7 +248,7 @@ class des():
         round_ = 0
         result = []
         for block in subblocks:
-            result = result + compute_s_box(self, block, round_)
+            result = result + compute_s_box(self, block, round_) # may need to move this function
             round_ = round_ + 1
         
         #for each 6 bit subblock you need to apply the corresponding s box (using the compute_s_box function) and save the result in result value
@@ -257,9 +257,16 @@ class des():
         
     def permut(self, block, table):#Permut the given block using the given table (so generic method)
         ###################################your code goes here###################################
+        
+        new_block = block
+        count = 0
+        for x in table:
+            new_block[count] = block[x]
+            count = count + 1
+            
         #permute the block using the table! the table will be either PI or CP_1 or CP_2 (found in the beginning of this file!)
         #block is a bit array in integers [1,0,1,...], the output has the same format as block but with a permutation of the members
-        return block
+        return new_block
         
     
     def expand(self, block, table):#Do the exact same thing than permut but for more clarity has been renamed
