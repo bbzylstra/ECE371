@@ -59,7 +59,7 @@ coder = des.des()
 r_byte=bytearray()
 
 for byte in data:
-    byte = coder.encrypt(des_key, byte, True)
+    byte = coder.encrypt(des_key, str(byte), True)
     r_byte.append(byte)
 
 #send image through socket
