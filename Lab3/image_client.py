@@ -27,7 +27,7 @@ private_keypair = keypair[1]
 #generate public and private key from the p and q values
 #send key
 
-message=('public_key: %d %d' % (public[0], public[1]))
+message=('public_key: %d %d' % (public_keypair[0], public_keypair[1]))
 mySocket.sendto(message.encode(),(SERVER_IP,PORT_NUMBER))
 #send des_key
 message=('des_key')
