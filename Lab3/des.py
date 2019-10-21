@@ -303,7 +303,6 @@ class des():
         else:
             return self.run(key, text, ENCRYPT, padding)
     
-    def decrypt(self, key, text, padding=False,cbc=False,IV='ASASASAS'):
         if cbc:
             return self.run_cbc(key, text, DECRYPT, padding,IV)
         else:
