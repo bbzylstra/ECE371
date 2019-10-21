@@ -244,9 +244,15 @@ class des():
     def substitute(self, d_e):#Substitute bytes using SBOX
         subblocks = nsplit(d_e, 6)#Split bit array into sublist of 6 bits
         ###################################your code goes here###################################
+        
+        round_ = 0
+        result = []
+        for block in subblocks:
+            result = result + compute_s_box(self, block, round_)
+            round_ = round_ + 1
+        
         #for each 6 bit subblock you need to apply the corresponding s box (using the compute_s_box function) and save the result in result value
         # result is a list of integer values 1 or 0
-        result = [1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1]
         return result
         
     def permut(self, block, table):#Permut the given block using the given table (so generic method)
