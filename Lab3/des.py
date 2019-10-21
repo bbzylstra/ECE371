@@ -262,7 +262,7 @@ class des():
     def permut(self, block, table):#Permut the given block using the given table (so generic method)
         ###################################your code goes here###################################
         
-        new_block = block
+        new_block = [None] * len(table)
         count = 0
         for x in table:
             new_block[count] = block[x-1]
