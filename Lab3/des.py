@@ -132,6 +132,15 @@ def binvalue(val, bitsize): #Return the binary value as a string of the given si
 def nsplit(s, n):#Split a list into sublists of size "n"
     return [s[k:k+n] for k in range(0, len(s), n)]
 
+def bin_list_to_dec(binary): #converts a binary number stored as a list to decimal
+    length = len(binary)
+    decimal = 0
+    for x in binary:
+        decimal = decimal + 2**(length-1) * x
+        length = length - 1
+    return decimal
+
+
 ENCRYPT=1
 DECRYPT=0
 
@@ -287,6 +296,12 @@ class des():
             return self.run(key, text, DECRYPT, padding)
     def compute_s_box(self,block,round):
         ###################################your code goes here###################################
+        row = bin_list_to_dec([block[0], block[5]])
+        col = bin_list_to_dec([block[1], block[2], block[3], block[4]])
+        which_box = (round % 8) - 1
+        
+        return binvalue(S_BOX[which_box][row][col])
+        
         # compute the corresponding row and column in the s box and choose the correct s box based on round
         # the input block is a list of integers for 1 or 0  e.g. block=[1,1,0,0,0,0,0]
         #return a string of 4 bits e.g. '1111' as the output, the binvalue() function is helpful
