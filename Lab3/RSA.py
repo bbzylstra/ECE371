@@ -9,7 +9,7 @@ def gcd(a, b):
 #uses extened euclidean algorithm to get the d value
 #for more info look here: https://crypto.stackexchange.com/questions/5889/calculating-rsa-private-exponent-when-given-public-exponent-and-the-modulus-fact
 #will also be explained in class
-def get_d(e, z):
+def get_d(z,e):
     ###################################your code goes here#####################################
     a = (1,0)
     b = (0,1)
@@ -17,7 +17,7 @@ def get_d(e, z):
     
     while (output != 1):
         # Anonymous function to reduce tuple to numeric value
-        value = lambda r: r[0]*e+r[1]*z
+        value = lambda r: r[0]*z+r[1]*e
 
         # val is simply amodb
         output = value(a)%value(b)
@@ -33,7 +33,7 @@ def get_d(e, z):
         b = r
     d = r[1]
     while d < 0:
-        d+=e
+        d+=z
     return d
 
 
@@ -67,7 +67,7 @@ def rel_prime(z, n):
         k = True
         for j in range(2,i//2):
             # if there is a number that divides both the checked number and z, then dont include
-            if (z%j==0 and i%j==0):
+            if (z%j==0 and i%j==0 or z%i==0):
                 k = False
                 break
         if(k):
@@ -86,7 +86,7 @@ def generate_keypair(p, q):
     z = (p-1)*(q-1)
     n=p*q
     e = rel_prime(z,n)
-    d=get_d(e,z)
+    d=get_d(z,e)
     return ((e, n), (d, n))
 
 def encrypt(pk, plaintext):
@@ -94,8 +94,6 @@ def encrypt(pk, plaintext):
     #plaintext is a single character
     #cipher is a decimal number which is the encrypted version of plaintext
     #the pow function is much faster in calculating power compared to the ** symbol !!!
-    text = ord(plaintext)
-    print(text)
     cipher=pow(ord(plaintext),pk[0],pk[1])
     return cipher
 
@@ -104,14 +102,4 @@ def decrypt(pk, ciphertext):
     #ciphertext is a single decimal number
     #the returned value is a character that is the decryption of ciphertext
     plain=pow(ciphertext,pk[0],pk[1])
-    print(plain)
     return chr(plain)
-
-keys = generate_keypair(53,103)
-print(keys[1])
-print(keys)
-cipher = encrypt(keys[0],'e')
-print(cipher)
-plain = decrypt(keys[1],cipher)
-print(plain)
-
