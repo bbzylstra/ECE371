@@ -24,13 +24,26 @@ while True:
         if data.find('public_key')!=-1: #client has sent their public key\
             ###################################your code goes here#####################################
             #retrieve public key and private key from the received message (message is a string!)
-            public_key_e=0
-            public_key_n=0
+            key_pair = re.findall(r'\d+', data)
+            public_key_e=int(key_pair[0])
+            public_key_n=int(key_pair[1])
+            
+            client_public_key = key_pair
+            
             print ('public key is : %d, %d'%(public_key_e,public_key_n))
         elif data.find('des_key')!=-1: #client has sent their DES key
             ###################################your code goes here####################
             #read the next 8 bytes for the DES key by running (data,addr) = mySocket.recvfrom(SIZE) 8 times and then decrypting with RSA
-            des_key='dummyval'
+            
+            
+            for x in range(8):
+                (data, addr) = mySocket.recvfrom(SIZE)
+                des_key += decrypt(client_public_key, int(data))
+                
+            des_key=data[8:]
+            for char in des_key:
+                decrypt(client_public_key, char)
+            
             print ('DES key is :' + des_key)
             #now we will receive the image from the client
             (data,addr) = mySocket.recvfrom(SIZE)

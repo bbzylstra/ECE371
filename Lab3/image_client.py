@@ -30,6 +30,9 @@ private_keypair = keypair[1]
 message=('public_key: %d %d' % (public_keypair[0], public_keypair[1]))
 mySocket.sendto(message.encode(),(SERVER_IP,PORT_NUMBER))
 #send des_key
+
+des_key_encrypted = ''
+
 message=('des_key')
 mySocket.sendto(message.encode(),(SERVER_IP,PORT_NUMBER))
 ###################################your code goes here#####################################
