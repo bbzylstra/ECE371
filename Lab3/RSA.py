@@ -1,6 +1,5 @@
 
 import random
-
 #fnction for finding gcd of two numbers using euclidean algorithm
 def gcd(a, b):
     while b != 0:
@@ -95,12 +94,24 @@ def encrypt(pk, plaintext):
     #plaintext is a single character
     #cipher is a decimal number which is the encrypted version of plaintext
     #the pow function is much faster in calculating power compared to the ** symbol !!!
-    cipher=0;
+    text = ord(plaintext)
+    print(text)
+    cipher=pow(ord(plaintext),pk[0],pk[1])
     return cipher
 
 def decrypt(pk, ciphertext):
     ###################################your code goes here#####################################
     #ciphertext is a single decimal number
     #the returned value is a character that is the decryption of ciphertext
-    plain='a'
-    return ''.join(plain)
+    plain=pow(ciphertext,pk[0],pk[1])
+    print(plain)
+    return chr(plain)
+
+keys = generate_keypair(53,103)
+print(keys[1])
+print(keys)
+cipher = encrypt(keys[0],'e')
+print(cipher)
+plain = decrypt(keys[1],cipher)
+print(plain)
+
