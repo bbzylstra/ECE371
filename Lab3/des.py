@@ -135,11 +135,9 @@ def nsplit(s, n):#Split a list into sublists of size "n"
 def bin_list_to_dec(binary): #converts a binary number stored as a list to decimal
     length = len(binary)
     decimal = 0
-    count = 0
     for x in binary:
-        decimal = decimal + 2^(length-1) * binary[count]
+        decimal = decimal + 2**(length-1) * x
         length = length - 1
-        count = count + 1
     return decimal
 
 
