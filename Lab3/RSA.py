@@ -57,20 +57,25 @@ def rel_prime(z, n):
     """
     Returns a random, relatively prime number to z in the range 1:n
     """
-    num_list = [i for i in range(1,n) if z%i!=0]
+    # Had to comment this out due to time and memory errors.
+    # Instead will get first 100 unique values
+    # num_list = [i for i in range(1,n) if z%i!=0]
+
     rel_prime_list = []
 
-    for i in num_list:
+    # Start from 5 to avoid the edge cases of 2,3, and 4 (each make the inner loop not run)
+    for i in range(5,n):
         k = True
         for j in range(2,i//2):
-            if (i%j==0 and z%j==0):
+            # if there is a number that divides both the checked number and z, then dont include
+            if (z%j==0 and i%j==0):
                 k = False
                 break
         if(k):
             rel_prime_list.append(i)
-            
-    return rel_prime_list[random.randint(0,len(rel_prime_list))]
-
+        if(len(rel_prime_list) > 100):
+            break
+    return rel_prime_list[random.randint(0,len(rel_prime_list)-1)]
 
 def generate_keypair(p, q):
     if not (is_prime(p) and is_prime(q)):
@@ -85,7 +90,6 @@ def generate_keypair(p, q):
     d=get_d(e,z)
     return ((e, n), (d, n))
 
-print(generate_keypair(5,7))
 def encrypt(pk, plaintext):
     ###################################your code goes here#####################################
     #plaintext is a single character
