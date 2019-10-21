@@ -28,7 +28,7 @@ while True:
             public_key_e=int(key_pair[0])
             public_key_n=int(key_pair[1])
             
-            client_public_key = key_pair
+            client_public_key = (public_key_e, public_key_n)
             
             print ('public key is : %d, %d'%(public_key_e,public_key_n))
         elif data.find('des_key')!=-1: #client has sent their DES key
@@ -39,10 +39,6 @@ while True:
             for x in range(8):
                 (data, addr) = mySocket.recvfrom(SIZE)
                 des_key += decrypt(client_public_key, int(data))
-                
-            des_key=data[8:]
-            for char in des_key:
-                decrypt(client_public_key, char)
             
             print ('DES key is :' + des_key)
             #now we will receive the image from the client

@@ -249,8 +249,11 @@ class des():
         round_ = 0
         result = []
         for block in subblocks:
-            result = result + self.compute_s_box(block, round_) # may need to move this function
+            r = self.compute_s_box(block, round_)
+            for bit in r:
+                result.append(int(bit)) # may need to move this function
             round_ = round_ + 1
+            
         
         #for each 6 bit subblock you need to apply the corresponding s box (using the compute_s_box function) and save the result in result value
         # result is a list of integer values 1 or 0
@@ -262,7 +265,7 @@ class des():
         new_block = block
         count = 0
         for x in table:
-            new_block[count] = block[x]
+            new_block[count] = block[x-1]
             count = count + 1
             
         #permute the block using the table! the table will be either PI or CP_1 or CP_2 (found in the beginning of this file!)
@@ -280,7 +283,7 @@ class des():
         self.keys = []
         key = string_to_bit_array(self.password)
         key = self.permut(key, CP_1) #Apply the initial permut on the key
-        g, d = nsplit(key, 28) #Split it in to (g->LEFT),(d->RIGHT)
+        g, d = nsplit(key, 32) #Split it in to (g->LEFT),(d->RIGHT) used to be 28
         for i in range(16):#Apply the 16 rounds
             g, d = self.shift(g, d, SHIFT[i]) #Apply the shift associated with the round (not always 1)
             tmp = g + d #Merge them
@@ -302,7 +305,8 @@ class des():
             return self.run_cbc(key, text, ENCRYPT, padding,IV)
         else:
             return self.run(key, text, ENCRYPT, padding)
-    
+        
+    def decrypt(self, key, text, padding=False,cbc=False,IV='ASASASAS'):
         if cbc:
             return self.run_cbc(key, text, DECRYPT, padding,IV)
         else:
@@ -312,13 +316,10 @@ class des():
         ###################################your code goes here###################################
         row = bin_list_to_dec([block[0], block[5]])
         col = bin_list_to_dec([block[1], block[2], block[3], block[4]])
-        which_box = (round_ % 8) - 1
-        
-        return binvalue(S_BOX[which_box][row][col])
+        which_box = round_
+        return binvalue(S_BOX[which_box][row][col], 4)
         
         # compute the corresponding row and column in the s box and choose the correct s box based on round
         # the input block is a list of integers for 1 or 0  e.g. block=[1,1,0,0,0,0,0]
         #return a string of 4 bits e.g. '1111' as the output, the binvalue() function is helpful
-        bin='1111'
-        return bin
     

@@ -41,7 +41,7 @@ des_encoded = ['', '', '', '', '', '', '', '']
 
 count = 0
 for char in des_key:
-    des_encoded[count] = encrypt(private_keypair, char)
+    des_encoded[count] = str(encrypt(private_keypair, char))
     count = count + 1
 
 [mySocket.sendto(code.encode(),(SERVER_IP,PORT_NUMBER)) for code in des_encoded]
@@ -59,7 +59,7 @@ coder = des.des()
 r_byte=bytearray()
 
 for byte in data:
-    byte = coder.encrypt(des_key, byte)
+    byte = coder.encrypt(des_key, byte, True)
     r_byte.append(byte)
 
 #send image through socket
