@@ -239,7 +239,8 @@ class des():
             return self.removePadding(final_res) #Remove the padding if decrypt and padding is true
         else:
             return final_res #Return the final string of data ciphered/deciphered
-
+        
+    
 
     def substitute(self, d_e):#Substitute bytes using SBOX
         subblocks = nsplit(d_e, 6)#Split bit array into sublist of 6 bits
@@ -248,7 +249,7 @@ class des():
         round_ = 0
         result = []
         for block in subblocks:
-            result = result + compute_s_box(self, block, round_) # may need to move this function
+            result = result + self.compute_s_box(block, round_) # may need to move this function
             round_ = round_ + 1
         
         #for each 6 bit subblock you need to apply the corresponding s box (using the compute_s_box function) and save the result in result value
@@ -307,11 +308,12 @@ class des():
             return self.run_cbc(key, text, DECRYPT, padding,IV)
         else:
             return self.run(key, text, DECRYPT, padding)
-    def compute_s_box(self,block,round):
+        
+    def compute_s_box(self,block,round_):
         ###################################your code goes here###################################
         row = bin_list_to_dec([block[0], block[5]])
         col = bin_list_to_dec([block[1], block[2], block[3], block[4]])
-        which_box = (round % 8) - 1
+        which_box = (round_ % 8) - 1
         
         return binvalue(S_BOX[which_box][row][col])
         
@@ -320,3 +322,4 @@ class des():
         #return a string of 4 bits e.g. '1111' as the output, the binvalue() function is helpful
         bin='1111'
         return bin
+    
