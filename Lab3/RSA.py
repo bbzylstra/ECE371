@@ -1,6 +1,5 @@
 
 import random
-from math import floor
 
 #fnction for finding gcd of two numbers using euclidean algorithm
 def gcd(a, b):
@@ -18,14 +17,14 @@ def get_d(e, z):
     output = 0
     
     while (output != 1):
-
         # Anonymous function to reduce tuple to numeric value
-        value = lambda (x,y): x*e+y*z
+        value = lambda r: r[0]*e+r[1]*z
 
         # val is simply amodb
         output = value(a)%value(b)
+        
         # Get the value of c by dividing a/b without the remainder
-        c = floor(value(a)/value(b))
+        c = value(a)//value(b)
 
         #Do tuple subtraction a-c*b, where c is the number of times b can go into a
         r = tuple(x-c*y for x, y in zip(a, b))
@@ -33,8 +32,11 @@ def get_d(e, z):
         #print(str(a) + " - " + str(b) + " = " + str(val))
         a = b
         b = r
+    d = r[1]
+    while d < 0:
+        d+=e
+    return d
 
-    return r[1]
 
 def is_prime (num):
     if num > 1: 
@@ -44,14 +46,30 @@ def is_prime (num):
          
            # If num is divisible by any number between  
            # 2 and n / 2, it is not prime  
-           if (num % i) == 0: 
+           if (num % i) == 0:
                return False 
                break
-           else: 
-               return True 
-  
+       return True
     else: 
         return False
+
+def rel_prime(z, n):
+    """
+    Returns a random, relatively prime number to z in the range 1:n
+    """
+    num_list = [i for i in range(1,n) if z%i!=0]
+    rel_prime_list = []
+
+    for i in num_list:
+        k = True
+        for j in range(2,i//2):
+            if (i%j==0 and z%j==0):
+                k = False
+                break
+        if(k):
+            rel_prime_list.append(i)
+            
+    return rel_prime_list[random.randint(0,len(rel_prime_list))]
 
 
 def generate_keypair(p, q):
@@ -61,11 +79,13 @@ def generate_keypair(p, q):
         raise ValueError('p and q cannot be equal')
     ###################################your code goes here#####################################
 
-    e=0
-    n=0
-    d=0
+    z = (p-1)*(q-1)
+    n=p*q
+    e = rel_prime(z,n)
+    d=get_d(e,z)
     return ((e, n), (d, n))
 
+print(generate_keypair(5,7))
 def encrypt(pk, plaintext):
     ###################################your code goes here#####################################
     #plaintext is a single character
