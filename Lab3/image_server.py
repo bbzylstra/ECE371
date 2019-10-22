@@ -10,7 +10,7 @@ PORT_NUMBER = 5000
 SIZE = 8192
 
 #hostName = gethostbyname( '192.168.1.3' )
-hostName = gethostbyname( 'localhost' )
+hostName = gethostbyname( 'DE1_SoC' )
 
 mySocket = socket( AF_INET, SOCK_DGRAM )
 mySocket.bind( (hostName, PORT_NUMBER) )
@@ -59,13 +59,13 @@ while True:
             #encode data with latin1 encoding
             
             data = data.decode('utf-8')
-            print(data)
-            print(len(data))
+            #print(data)
+            #print(len(data))
             plaintext=coder.decrypt(des_key, data)
-            print(len(plaintext))
-            print(plaintext)
+            #print(len(plaintext))
+            #print(plaintext)
             rr_byte = bytearray(plaintext, 'latin1')
-            print(len(rr_byte))
+            #print(len(rr_byte))
             
             #rr_byte.extend(byte.encode('utf-8'))            
             #write to file to make sure it is okay

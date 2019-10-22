@@ -6,7 +6,7 @@ from RSA import generate_keypair,encrypt,decrypt
 import struct
 from math import ceil
 
-SERVER_IP    = gethostbyname( 'localhost' )
+SERVER_IP    = gethostbyname( 'DE1_SoC' )
 PORT_NUMBER = 5000
 SIZE = 1024
 des_key='password'
@@ -65,9 +65,9 @@ r_byte=bytearray()
 s=''
 count=0
 data = data.decode('latin1')
-print(data)
+#print(data)
 ciphertext = coder.encrypt(des_key, data)
-print(ciphertext)
+#print(ciphertext)
 r_byte = bytearray(ciphertext, 'utf-8')
 
 
