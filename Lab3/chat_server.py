@@ -24,16 +24,12 @@ while True:
             public_key_e = int(new_str[0: new_str.find(" ")])
             public_key_n = int(new_str[new_str.find(" ")+1: ])
             print ('public key is : %d, %d'%(public_key_e,public_key_n))
-            
-            client_public_key = (public_key_e, public_key_n)
-            
         else:
-            cipher=int(data)
-            #print(cipher, end =" ")
+            cipher=data
             ###################################your code goes here#####################################
             #data_decoded is the decoded character based on the received cipher, calculate it using functions in RSA.py
-            data_decoded=decrypt(client_public_key, cipher)
-            print(data_decoded)
+            data_decoded=decrypt((public_key_e, public_key_n),int(cipher))
+            print (cipher + ":"+ data_decoded)
                 #python2: print data ,
 sys.ext()
 #What could I be doing wrong?
