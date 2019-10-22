@@ -66,6 +66,7 @@ while True:
             print(plaintext)
             rr_byte = bytearray(plaintext, 'latin1')
             print(len(rr_byte))
+            
             #rr_byte.extend(byte.encode('utf-8'))            
             #write to file to make sure it is okay
             file2=open(r'penguin_decrypted.jpg',"wb") 
