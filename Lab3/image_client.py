@@ -4,9 +4,9 @@ import sys
 from socket import socket, AF_INET, SOCK_DGRAM, gethostbyname
 from RSA import generate_keypair,encrypt,decrypt
 import struct
+from math import ceil
 
-
-SERVER_IP    = gethostbyname( 'DE1_SoC' )
+SERVER_IP    = gethostbyname( 'localhost' )
 PORT_NUMBER = 5000
 SIZE = 1024
 des_key='password'
@@ -26,6 +26,8 @@ private_keypair = keypair[1]
 
 #generate public and private key from the p and q values
 #send key
+
+print("public_key: "+str(public_keypair[0])+" "+str(public_keypair[1]))
 
 message=('public_key: %d %d' % (public_keypair[0], public_keypair[1]))
 mySocket.sendto(message.encode(),(SERVER_IP,PORT_NUMBER))
@@ -55,12 +57,19 @@ file.close()
 #coder=des.des(), use bytearray to send the encryped image through network
 #r_byte is the final value you will send through socket
 
+#decode data as latin1 encoding
+#encrypt data
+#convert to byte array with utf-8 encoding
 coder = des.des()
 r_byte=bytearray()
+s=''
+count=0
+data = data.decode('latin1')
+print(data)
+ciphertext = coder.encrypt(des_key, data)
+print(ciphertext)
+r_byte = bytearray(ciphertext, 'utf-8')
 
-for byte in data:
-    byte = coder.encrypt(des_key, str(byte), True)
-    r_byte.append(byte)
 
 #send image through socket
 mySocket.sendto(bytes(r_byte),(SERVER_IP,PORT_NUMBER))

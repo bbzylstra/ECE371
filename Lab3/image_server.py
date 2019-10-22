@@ -10,7 +10,7 @@ PORT_NUMBER = 5000
 SIZE = 8192
 
 #hostName = gethostbyname( '192.168.1.3' )
-hostName = gethostbyname( 'DE1_SoC' )
+hostName = gethostbyname( 'localhost' )
 
 mySocket = socket( AF_INET, SOCK_DGRAM )
 mySocket.bind( (hostName, PORT_NUMBER) )
@@ -42,7 +42,7 @@ while True:
             
             print ('DES key is :' + des_key)
             #now we will receive the image from the client
-            (data,addr) = mySocket.recvfrom(SIZE)
+            (data,addr) = mySocket.recvfrom(10192)
             #decrypt the image
             ###################################your code goes here####################
             #the received encoded image is in data
@@ -50,9 +50,26 @@ while True:
             #coder=des.des()
             #the final output should be saved in a byte array called rr_byte
             rr_byte=bytearray()
+            coder = des.des()
+            s=''
+            count=0
+            
+            #convert from byte array with utf-8 encoding to string
+            #decrypt data
+            #encode data with latin1 encoding
+            
+            data = data.decode('utf-8')
+            print(data)
+            print(len(data))
+            plaintext=coder.decrypt(des_key, data)
+            print(len(plaintext))
+            print(plaintext)
+            rr_byte = bytearray(plaintext, 'latin1')
+            print(len(rr_byte))
+            #rr_byte.extend(byte.encode('utf-8'))            
             #write to file to make sure it is okay
             file2=open(r'penguin_decrypted.jpg',"wb") 
-            file2.write(bytes(rr_byte))
+            file2.write(rr_byte)
             file2.close()
             print ('decypting image completed')
             break
